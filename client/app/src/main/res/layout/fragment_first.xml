@@ -8,15 +8,14 @@
     tools:context=".FirstFragment">
 
     <ImageView
-        android:id="@+id/circle_run_3"
+        android:id="@+id/circle_run_1"
         android:layout_width="125dp"
         android:layout_height="112dp"
         android:layout_marginTop="24dp"
         android:src="@drawable/run_selector"
-        app:layout_constraintTop_toBottomOf="@+id/button_reset"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/circle_run_2"
-        tools:layout_editor_absoluteX="275dp" />
+        app:layout_constraintEnd_toStartOf="@+id/circle_run_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_start" />
 
     <ImageView
         android:id="@+id/circle_run_2"
@@ -29,6 +28,17 @@
         app:layout_constraintEnd_toStartOf="@+id/circle_run_3"
         app:layout_constraintStart_toEndOf="@+id/circle_run_1"
         app:layout_constraintTop_toBottomOf="@+id/button_pause" />
+
+    <ImageView
+        android:id="@+id/circle_run_3"
+        android:layout_width="125dp"
+        android:layout_height="112dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/run_selector"
+        app:layout_constraintTop_toBottomOf="@+id/button_reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/circle_run_2"
+        tools:layout_editor_absoluteX="275dp" />
 
     <TextView
         android:id="@+id/textview_first"
@@ -88,16 +98,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_end"
         app:layout_constraintTop_toBottomOf="@id/textview_first" />
-
-    <ImageView
-        android:id="@+id/circle_run_1"
-        android:layout_width="125dp"
-        android:layout_height="112dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/run_selector"
-        app:layout_constraintTop_toBottomOf="@+id/button_start"
-        app:layout_constraintEnd_toStartOf="@+id/circle_run_2"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="12dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
