@@ -45,7 +45,9 @@ class FirstFragment : Fragment() {
 
         for (circle in listOf(R.id.circle_run_1, R.id.circle_run_2, R.id.circle_run_3)) {
             val imgView = view.findViewById<ImageView>(circle)
-            val runIndicator = RunIndicator(ImageViewHandler(imgView))
+            val imageViewHandler = ImageViewHandler()
+            imageViewHandler.setImageView(imgView)
+            val runIndicator = RunIndicator(imageViewHandler)
             runIndicators.add(runIndicator)
 
             imgView.setOnClickListener {

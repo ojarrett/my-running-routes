@@ -1,7 +1,5 @@
 package com.ojarrett.myrunningroutes
 
-import android.graphics.drawable.Drawable
-import android.widget.ImageView
 
 class RunIndicator(val view: ImageViewHandler) {
     enum class RunState {RESET, SELECTED, STARTED, PAUSED, STOPPED}
@@ -19,6 +17,10 @@ class RunIndicator(val view: ImageViewHandler) {
 
         view.changeImage(nextSrcImage)
         currentState = nextState
+    }
+
+    public fun getState(): RunState {
+        return currentState
     }
 
     init {
