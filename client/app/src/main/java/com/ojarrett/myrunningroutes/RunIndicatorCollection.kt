@@ -8,8 +8,10 @@ class RunIndicatorCollection(private val runIndicators: List<RunIndicator>) {
     }
 
     public fun setSelected(runIndicator: RunIndicator) {
-        selected?.changeState(RunIndicator.RunState.RESET)
-        selected = runIndicator
+        if(runIndicator != selected) {
+            selected?.changeState(RunIndicator.RunState.RESET)
+            selected = runIndicator
+        }
     }
 
     public fun getRunIndicators(): List<RunIndicator> {

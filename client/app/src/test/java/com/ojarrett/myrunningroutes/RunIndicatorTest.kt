@@ -50,4 +50,14 @@ class RunIndicatorTest {
         assertEquals(RunIndicator.RunState.RESET, runIndicator.getState())
         assertEquals(RunIndicator.RunState.SELECTED, otherRunIndicator1.getState())
     }
+
+    @Test
+    fun runIndicatorToSelectedTwiceWithCollection() {
+        for(ri in runIndicatorCollection.getRunIndicators()) {
+            ri.setCollection(runIndicatorCollection)
+        }
+        runIndicator.changeState(RunIndicator.RunState.SELECTED)
+        runIndicator.changeState(RunIndicator.RunState.SELECTED)
+        assertEquals(RunIndicator.RunState.SELECTED, runIndicator.getState())
+    }
 }
