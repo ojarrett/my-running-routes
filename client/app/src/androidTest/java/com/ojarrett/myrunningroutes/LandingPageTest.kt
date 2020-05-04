@@ -47,12 +47,24 @@ class LandingPageTest {
 
         // User clicks the "Start" button to start recording their run and observes that
         // the selected circle turns green
+        onView(withId(R.id.button_start)).perform(click())
+        onView(withId(R.id.circle_run_1))
+            .check(matches(withTagValue(equalTo(R.drawable.run_selector_green))))
 
         // User clicks the "Pause" button and observes that the selected circle turns orange
+        onView(withId(R.id.button_pause)).perform(click())
+        onView(withId(R.id.circle_run_1))
+            .check(matches(withTagValue(equalTo(R.drawable.run_selector_orange))))
 
         // User clicks the "End" button and observes that the selected circle turns red
+        onView(withId(R.id.button_end)).perform(click())
+        onView(withId(R.id.circle_run_1))
+            .check(matches(withTagValue(equalTo(R.drawable.run_selector_red))))
 
         // User clicks the "Reset" button and observes that the selected circle turns back to
         // grey
+        onView(withId(R.id.button_reset)).perform(click())
+        onView(withId(R.id.circle_run_1))
+            .check(matches(withTagValue(equalTo(R.drawable.run_selector))))
     }
 }
