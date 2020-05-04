@@ -27,22 +27,6 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.button_start).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
-
-        view.findViewById<Button>(R.id.button_pause).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
-
-        view.findViewById<Button>(R.id.button_end).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
-
-        view.findViewById<Button>(R.id.button_reset).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
-
         var runIndicators = mutableListOf<RunIndicator>()
 
         for (circle in listOf(R.id.circle_run_1, R.id.circle_run_2, R.id.circle_run_3)) {
@@ -60,6 +44,23 @@ class FirstFragment : Fragment() {
         runIndicatorCollection = RunIndicatorCollection(runIndicators)
         for (runIndicator in runIndicators) {
             runIndicator.setCollection(runIndicatorCollection)
+        }
+
+
+        view.findViewById<Button>(R.id.button_start).setOnClickListener {
+            runIndicatorCollection.startSelected()
+        }
+
+        view.findViewById<Button>(R.id.button_pause).setOnClickListener {
+            runIndicatorCollection.pauseStarted()
+        }
+
+        view.findViewById<Button>(R.id.button_end).setOnClickListener {
+            runIndicatorCollection.stop()
+        }
+
+        view.findViewById<Button>(R.id.button_reset).setOnClickListener {
+            runIndicatorCollection.resetSelected()
         }
     }
 }

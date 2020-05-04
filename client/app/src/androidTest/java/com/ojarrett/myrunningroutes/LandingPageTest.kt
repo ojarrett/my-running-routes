@@ -61,6 +61,10 @@ class LandingPageTest {
         onView(withId(R.id.circle_run_1))
             .check(matches(withTagValue(equalTo(R.drawable.run_selector_red))))
 
+        // User clicks on ended run to select it
+        onView(withId(R.id.circle_run_1)).perform(click())
+            .check(matches(withTagValue(equalTo(R.drawable.run_selector_white))))
+
         // User clicks the "Reset" button and observes that the selected circle turns back to
         // grey
         onView(withId(R.id.button_reset)).perform(click())
