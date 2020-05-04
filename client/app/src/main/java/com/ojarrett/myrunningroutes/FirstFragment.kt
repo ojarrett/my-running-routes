@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_first.*
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class FirstFragment : Fragment() {
-    private var runIndicators = mutableListOf<RunIndicator>()
+    private var runIndicatorCollection = RunIndicatorCollection(listOf<RunIndicator>())
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +43,8 @@ class FirstFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
+        var runIndicators = mutableListOf<RunIndicator>()
+
         for (circle in listOf(R.id.circle_run_1, R.id.circle_run_2, R.id.circle_run_3)) {
             val imgView = view.findViewById<ImageView>(circle)
             val imageViewHandler = ImageViewHandler()
@@ -55,5 +57,9 @@ class FirstFragment : Fragment() {
             }
         }
 
+        runIndicatorCollection = RunIndicatorCollection(runIndicators)
+        for (runIndicator in runIndicators) {
+            runIndicator.setCollection(runIndicatorCollection)
+        }
     }
 }

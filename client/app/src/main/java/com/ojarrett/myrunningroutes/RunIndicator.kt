@@ -4,6 +4,7 @@ package com.ojarrett.myrunningroutes
 class RunIndicator(val view: ImageViewHandler) {
     enum class RunState {RESET, SELECTED, STARTED, PAUSED, STOPPED}
     private var currentState = RunState.RESET
+    private var collection: RunIndicatorCollection? = null
 
     public fun changeState(nextState: RunState) {
 
@@ -17,10 +18,17 @@ class RunIndicator(val view: ImageViewHandler) {
 
         view.changeImage(nextSrcImage)
         currentState = nextState
+        if(nextState == RunState.SELECTED) {
+            collection?.setSelected(this)
+        }
     }
 
     public fun getState(): RunState {
         return currentState
+    }
+
+    public fun setCollection(collection: RunIndicatorCollection) {
+        this.collection = collection
     }
 
     init {
