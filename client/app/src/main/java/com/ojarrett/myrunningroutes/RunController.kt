@@ -1,6 +1,6 @@
 package com.ojarrett.myrunningroutes
 
-class RunIndicatorCollection(private val runIndicators: List<RunIndicator>) {
+class RunController(private val runIndicators: List<RunIndicator>) {
     private var selected: RunIndicator? = null
     private var started: RunIndicator? = null
 

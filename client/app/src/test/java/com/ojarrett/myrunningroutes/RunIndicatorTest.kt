@@ -15,7 +15,7 @@ class RunIndicatorTest {
     var runIndicator = RunIndicator(fakeImageViewHandler)
     var otherRunIndicator1 = RunIndicator(fakeImageViewHandler)
     var otherRunIndicator2 = RunIndicator(fakeImageViewHandler)
-    var runIndicatorCollection = RunIndicatorCollection(
+    var runIndicatorCollection = RunController(
         listOf(runIndicator, otherRunIndicator1, otherRunIndicator2))
 
     private fun attachRunIndicatorsToCollection(selected: RunIndicator?, started: RunIndicator?) {
@@ -39,7 +39,7 @@ class RunIndicatorTest {
         otherRunIndicator1 = RunIndicator(fakeImageViewHandler)
         otherRunIndicator2 = RunIndicator(fakeImageViewHandler)
         val runIndicators = listOf(runIndicator, otherRunIndicator1, otherRunIndicator2)
-        runIndicatorCollection = RunIndicatorCollection(runIndicators)
+        runIndicatorCollection = RunController(runIndicators)
     }
 
     @Test

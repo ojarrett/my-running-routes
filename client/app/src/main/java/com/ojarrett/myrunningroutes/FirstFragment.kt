@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.fragment_first.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class FirstFragment : Fragment() {
-    private var runIndicatorCollection = RunIndicatorCollection(listOf<RunIndicator>())
+    private var runIndicatorCollection = RunController(listOf<RunIndicator>())
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +39,7 @@ class FirstFragment : Fragment() {
             }
         }
 
-        runIndicatorCollection = RunIndicatorCollection(runIndicators)
+        runIndicatorCollection = RunController(runIndicators)
         for (runIndicator in runIndicators) {
             runIndicator.setCollection(runIndicatorCollection)
         }

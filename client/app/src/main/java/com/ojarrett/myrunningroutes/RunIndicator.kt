@@ -5,7 +5,7 @@ class RunIndicator(val view: ImageViewHandler) {
     enum class RunState {RESET, SELECTED, STARTED, PAUSED, STOPPED}
     private var currentState = RunState.RESET
     private var isSelected = false
-    private var collection: RunIndicatorCollection? = null
+    private var collection: RunController? = null
 
     public fun changeState(nextState: RunState) {
 
@@ -37,7 +37,7 @@ class RunIndicator(val view: ImageViewHandler) {
         return isSelected
     }
 
-    public fun setCollection(collection: RunIndicatorCollection) {
+    public fun setCollection(collection: RunController) {
         this.collection = collection
     }
 
