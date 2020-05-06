@@ -10,7 +10,7 @@ class RunIndicatorCollection(private val runIndicators: List<RunIndicator>) {
 
     public fun setSelected(runIndicator: RunIndicator) {
         if(runIndicator != selected) {
-            selected?.changeState(RunIndicator.RunState.RESET)
+            selected?.getState()?.let { selected?.changeState(it) }
             selected = runIndicator
         }
     }
@@ -30,17 +30,30 @@ class RunIndicatorCollection(private val runIndicators: List<RunIndicator>) {
         selected = null
     }
 
-    public fun pauseStarted() {
-        started?.changeState(RunIndicator.RunState.PAUSED)
+    public fun pauseSelected() {
+        if (selected?.getState() == RunIndicator.RunState.STARTED) {
+            selected?.changeState(RunIndicator.RunState.PAUSED)
+            started = null
+            selected = null
+        }
     }
 
-    public fun stop() {
-        started?.changeState(RunIndicator.RunState.STOPPED)
-        started = null
+    public fun stopSelected() {
+        if (selected?.getState() in listOf(RunIndicator.RunState.STARTED, RunIndicator.RunState.PAUSED)) {
+            selected?.changeState(RunIndicator.RunState.STOPPED)
+            selected = null
+            started = null
+        }
     }
 
     public fun resetSelected() {
-        selected?.changeState(RunIndicator.RunState.RESET)
+        // For now, started runs will continue after hitting reset
+        if (selected?.getState() == RunIndicator.RunState.STARTED) {
+            selected?.changeState(RunIndicator.RunState.STARTED)
+        } else {
+            selected?.changeState(RunIndicator.RunState.RESET)
+        }
+
         selected = null
     }
 }

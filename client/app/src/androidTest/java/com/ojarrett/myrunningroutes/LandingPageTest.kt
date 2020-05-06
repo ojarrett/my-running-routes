@@ -18,6 +18,18 @@ class LandingPageTest {
     @get:Rule
     val activityRule = ActivityTestRule(MainActivity::class.java)
 
+    private fun clickFirstVerifySelected() {
+        onView(withId(R.id.circle_run_1))
+            .perform(click())
+            .check(matches(withTagValue(equalTo(R.drawable.run_selector_white))))
+    }
+
+    private fun clickSecondVerifySelected() {
+        onView(withId(R.id.circle_run_2))
+            .perform(click())
+            .check(matches(withTagValue(equalTo(R.drawable.run_selector_white))))
+    }
+
     @Test
     fun clickRunSelectorBasic() {
         // User loads app and should see 3 grey circles indicating the run to select
@@ -42,8 +54,7 @@ class LandingPageTest {
     @Test
     fun clickRunSelectorActions() {
         // User loads app and clicks one of the grey circles to record a new run
-        onView(withId(R.id.circle_run_1))
-            .perform(click())
+        clickFirstVerifySelected()
 
         // User clicks the "Start" button to start recording their run and observes that
         // the selected circle turns green
@@ -51,11 +62,13 @@ class LandingPageTest {
         onView(withId(R.id.circle_run_1))
             .check(matches(withTagValue(equalTo(R.drawable.run_selector_green))))
 
+        clickFirstVerifySelected()
         // User clicks the "Pause" button and observes that the selected circle turns orange
         onView(withId(R.id.button_pause)).perform(click())
         onView(withId(R.id.circle_run_1))
             .check(matches(withTagValue(equalTo(R.drawable.run_selector_orange))))
 
+        clickFirstVerifySelected()
         // User clicks the "End" button and observes that the selected circle turns red
         onView(withId(R.id.button_end)).perform(click())
         onView(withId(R.id.circle_run_1))
@@ -70,5 +83,23 @@ class LandingPageTest {
         onView(withId(R.id.button_reset)).perform(click())
         onView(withId(R.id.circle_run_1))
             .check(matches(withTagValue(equalTo(R.drawable.run_selector))))
+    }
+
+    @Test
+    fun startRunVerifyRunStaysStarted() {
+        // User loads app and clicks one of the grey circles to record a new run
+        clickFirstVerifySelected()
+
+        onView(withId(R.id.button_start)).perform(click())
+        onView(withId(R.id.circle_run_1))
+            .check(matches(withTagValue(equalTo(R.drawable.run_selector_green))))
+
+        // User clicks first run, then clicks second run
+        clickFirstVerifySelected()
+        clickSecondVerifySelected()
+
+        // User observes that the first run is still green (started)
+        onView(withId(R.id.circle_run_1))
+            .check(matches(withTagValue(equalTo(R.drawable.run_selector_green))))
     }
 }

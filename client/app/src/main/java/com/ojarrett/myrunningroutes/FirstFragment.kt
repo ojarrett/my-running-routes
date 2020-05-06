@@ -52,11 +52,11 @@ class FirstFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.button_pause).setOnClickListener {
-            runIndicatorCollection.pauseStarted()
+            runIndicatorCollection.pauseSelected()
         }
 
         view.findViewById<Button>(R.id.button_end).setOnClickListener {
-            runIndicatorCollection.stop()
+            runIndicatorCollection.stopSelected()
         }
 
         view.findViewById<Button>(R.id.button_reset).setOnClickListener {

@@ -29,6 +29,7 @@ class RunIndicatorTest {
 
         if (started != null) {
             runIndicatorCollection.setStarted(started)
+            runIndicator.changeState(RunIndicator.RunState.STARTED)
         }
     }
 
@@ -50,8 +51,8 @@ class RunIndicatorTest {
     fun runIndicatorToSelectedNoCollection() {
         runIndicator.changeState(RunIndicator.RunState.SELECTED)
         otherRunIndicator1.changeState(RunIndicator.RunState.SELECTED)
-        assertEquals(RunIndicator.RunState.SELECTED, runIndicator.getState())
-        assertEquals(RunIndicator.RunState.SELECTED, otherRunIndicator1.getState())
+        assertTrue(runIndicator.isSelected())
+        assertTrue(otherRunIndicator1.isSelected())
     }
 
     @Test
@@ -60,8 +61,8 @@ class RunIndicatorTest {
 
         runIndicator.changeState(RunIndicator.RunState.SELECTED)
         otherRunIndicator1.changeState(RunIndicator.RunState.SELECTED)
-        assertEquals(RunIndicator.RunState.RESET, runIndicator.getState())
-        assertEquals(RunIndicator.RunState.SELECTED, otherRunIndicator1.getState())
+        assertFalse(runIndicator.isSelected())
+        assertTrue(otherRunIndicator1.isSelected())
     }
 
     @Test
@@ -69,7 +70,7 @@ class RunIndicatorTest {
         attachRunIndicatorsToCollection(runIndicator, null)
 
         runIndicator.changeState(RunIndicator.RunState.SELECTED)
-        assertEquals(RunIndicator.RunState.SELECTED, runIndicator.getState())
+        assertTrue(runIndicator.isSelected())
     }
 
     @Test
@@ -82,9 +83,17 @@ class RunIndicatorTest {
 
     @Test
     fun pauseStartedRunIndicator() {
-        attachRunIndicatorsToCollection(null, runIndicator)
+        attachRunIndicatorsToCollection(runIndicator, runIndicator)
 
-        runIndicatorCollection.pauseStarted()
+        runIndicatorCollection.pauseSelected()
         assertEquals(RunIndicator.RunState.PAUSED, runIndicator.getState())
+    }
+
+    @Test
+    fun pauseNotStartedRunIndicator() {
+        attachRunIndicatorsToCollection(runIndicator, null)
+
+        runIndicatorCollection.pauseSelected()
+        assertEquals(RunIndicator.RunState.RESET, runIndicator.getState())
     }
 }
