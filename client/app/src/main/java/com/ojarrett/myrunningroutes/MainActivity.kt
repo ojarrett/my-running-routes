@@ -29,6 +29,10 @@ class MainActivity : AppCompatActivity() {
         gpsTracker.setLocationProvider(fusedLocationClient)
     }
 
+    public fun getGpsTracker(): GpsTrackManager {
+        return gpsTracker
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -49,7 +53,13 @@ class MainActivity : AppCompatActivity() {
             bindNewLocationProvider()
         }
 
-        gpsTracker.startNewGpsTrack()
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                MyPermissions.ACCESS_BACKGROUND_LOCATION.code
+            )
+        }
 
     }
 

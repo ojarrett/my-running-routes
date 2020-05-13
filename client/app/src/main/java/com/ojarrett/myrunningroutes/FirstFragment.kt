@@ -46,10 +46,12 @@ class FirstFragment : Fragment() {
 
 
         view.findViewById<Button>(R.id.button_start).setOnClickListener {
+            GpsTrackManager.instance?.startNewGpsTrack()
             runIndicatorCollection.startSelected()
         }
 
         view.findViewById<Button>(R.id.button_pause).setOnClickListener {
+            GpsTrackManager.instance?.pauseGpsTrack()
             runIndicatorCollection.pauseSelected()
         }
 

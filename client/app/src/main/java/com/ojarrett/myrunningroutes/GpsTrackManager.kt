@@ -5,26 +5,20 @@ import android.util.Log
 import com.google.android.gms.location.FusedLocationProviderClient
 
 class GpsTrackManager {
-    class GpsTrack(val manager: GpsTrackManager): Runnable {
-        override fun run() {
-            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND)
-            while(true) {
-                val loc: Location? = manager.getLatestLocation()
-                if (loc != null) {
-                    Log.i(
-                        "MainActivity",
-                        "Latitude: %f, Longitude: %f".format(loc.latitude, loc.longitude)
-                    )
-                } else {
-                    Log.i("MainActivity", "Location was null!")
-                }
-                Thread.sleep(3000)
-            }
-        }
+
+    companion object {
+        var instance:GpsTrackManager? = null
+    }
+
+    init {
+        // TODO: Fix if this is done more than once
+        instance = this
     }
     private var provider: FusedLocationProviderClient? = null
     private var lastLocation: Location? = null
-    private val gpsTrack: GpsTrack = GpsTrack(this)
+    private var gpsThreads: MutableList<Thread> = mutableListOf()
+    private var currentThread: Int = 0
+    private var points: MutableList<Location> = mutableListOf()
 
     public fun setLocationProvider(locationProvider:  FusedLocationProviderClient) {
         this.provider = locationProvider
@@ -39,6 +33,25 @@ class GpsTrackManager {
     }
 
     public fun startNewGpsTrack() {
-        Thread(gpsTrack).start()
+        val gpsThread = Thread(GpsTrack(this))
+        currentThread = gpsThreads.size
+        gpsThread.start()
+        gpsThreads.add(gpsThread)
+    }
+
+    public fun pauseGpsTrack() {
+        gpsThreads[currentThread].interrupt()
+    }
+
+    public fun addPoint(location: Location) {
+        points.add(location)
+    }
+
+    public fun getPoints(): List<Location> {
+        return points
+    }
+
+    public fun resetPoints() {
+        points = mutableListOf()
     }
 }
