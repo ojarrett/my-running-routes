@@ -19,6 +19,7 @@ class GpsTrackManager {
     private var gpsThreads: MutableList<Thread> = mutableListOf()
     private var currentThread: Int = 0
     private var points: MutableList<Location> = mutableListOf()
+    private var elapsed: Int = 0
 
     public fun setLocationProvider(locationProvider:  FusedLocationProviderClient) {
         this.provider = locationProvider
@@ -53,5 +54,13 @@ class GpsTrackManager {
 
     public fun resetPoints() {
         points = mutableListOf()
+    }
+
+    public fun incrementElapsed(by: Int) {
+        elapsed += by
+    }
+
+    fun getElapsed(): Int {
+        return elapsed
     }
 }

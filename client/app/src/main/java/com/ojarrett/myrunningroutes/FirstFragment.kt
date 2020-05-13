@@ -1,18 +1,30 @@
 package com.ojarrett.myrunningroutes
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.view.isVisible
+import java.util.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class FirstFragment : Fragment() {
     private var runIndicatorCollection = RunController(listOf<RunIndicator>())
+
+    class FragmentUpdateTask(val handler: Handler): TimerTask() {
+        override fun run() {
+            handler.sendMessage(Message())
+        }
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -62,5 +74,24 @@ class FirstFragment : Fragment() {
         view.findViewById<Button>(R.id.button_reset).setOnClickListener {
             runIndicatorCollection.resetSelected()
         }
+
+        val timer: Timer = Timer()
+        val handler: Handler = object : Handler() {
+            override fun handleMessage(m: Message): Unit {
+                val gps = GpsTrackManager.instance
+                when(gps) {
+                    null -> {}
+                    else -> {
+                        val points = gps.getPoints().size
+                        val elapsed = gps.getElapsed()
+                        val statusString = "Elapsed time: %d seconds. Points collected: %d".format(elapsed, points)
+                        val text: TextView = view.findViewById(R.id.gps_stats_textview)
+                        text.setText(statusString)
+                        text.visibility = VISIBLE
+                    }
+                }
+            }
+        }
+        timer.schedule(FragmentUpdateTask(handler), 0, 3000)
     }
 }

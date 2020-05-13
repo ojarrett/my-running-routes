@@ -11,6 +11,7 @@ class GpsTrack(val manager: GpsTrackManager): Runnable {
                 val loc: Location? = manager.getLatestLocation()
                 if (loc != null) {
                     manager.addPoint(loc)
+                    manager.incrementElapsed(3)
                     Log.i(
                         "MainActivity",
                         "Latitude: %f, Longitude: %f".format(loc.latitude, loc.longitude)
