@@ -17,11 +17,16 @@ import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val gpsTracker: GpsTrackManager = GpsTrackManager()
 
     enum class MyPermissions(val code: Int) {
         ACCESS_COARSE_LOCATION(100),
         ACCESS_BACKGROUND_LOCATION(101)
+    }
+
+    private fun bindNewLocationProvider() {
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        gpsTracker.setLocationProvider(fusedLocationClient)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +45,16 @@ class MainActivity : AppCompatActivity() {
                 arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
                 MyPermissions.ACCESS_COARSE_LOCATION.code
             )
+        } else {
+            bindNewLocationProvider()
+        }
+
+        var location: Location? = gpsTracker.getLatestLocation()
+        if(location != null) {
+            Log.i(
+                "MainActivity",
+                "Latitude: %f, Longitude: %f".format(location.latitude, location.longitude)
+            )
         }
 
     }
@@ -51,12 +66,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         when (requestCode) {
             MyPermissions.ACCESS_COARSE_LOCATION.code -> {
-                fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-                fusedLocationClient.lastLocation.addOnSuccessListener {
-                        location: Location? -> Log.i("MainActivity",
-                    "Latitude: %s, Longitude: %s".format(location?.latitude.toString(),
-                        location?.longitude.toString()))
-                }
+                bindNewLocationProvider()
             }
             MyPermissions.ACCESS_BACKGROUND_LOCATION.code -> {
                 // TODO: Fill this in when background run logging is added
