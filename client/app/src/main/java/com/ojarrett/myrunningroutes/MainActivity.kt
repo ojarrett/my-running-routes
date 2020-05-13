@@ -49,13 +49,7 @@ class MainActivity : AppCompatActivity() {
             bindNewLocationProvider()
         }
 
-        var location: Location? = gpsTracker.getLatestLocation()
-        if(location != null) {
-            Log.i(
-                "MainActivity",
-                "Latitude: %f, Longitude: %f".format(location.latitude, location.longitude)
-            )
-        }
+        gpsTracker.startNewGpsTrack()
 
     }
 
