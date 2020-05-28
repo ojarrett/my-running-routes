@@ -58,7 +58,9 @@ class FirstFragment : Fragment() {
 
 
         view.findViewById<Button>(R.id.button_start).setOnClickListener {
-            GpsTrackManager.instance?.startNewGpsTrack(runIndicatorCollection.getSelectedIndex())
+            if (runIndicatorCollection.isSelected()) {
+                GpsTrackManager.instance?.startNewGpsTrack(runIndicatorCollection.getSelectedIndex())
+            }
             runIndicatorCollection.startSelected()
         }
 

@@ -36,12 +36,14 @@ class GpsTrackManager {
         if (!gpsThreads.keys.contains(index)) {
             val gpsThread = Thread(GpsTrack(this))
             gpsThread.start()
-            gpsThreads.put(index, gpsThread)
+            gpsThreads[index] = gpsThread
         }
     }
 
     public fun pauseGpsTrack(index: Int) {
-        gpsThreads[index]?.interrupt()
+        if (gpsThreads.keys.contains(index)) {
+            gpsThreads[index]?.interrupt()
+        }
     }
 
     public fun addPoint(location: Location) {

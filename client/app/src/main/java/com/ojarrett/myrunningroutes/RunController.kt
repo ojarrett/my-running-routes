@@ -5,7 +5,7 @@ class RunController(private val runIndicators: List<RunIndicator>) {
     private var started: RunIndicator? = null
 
     public fun isSelected(): Boolean {
-        return selected == null
+        return selected != null
     }
 
     public fun getSelectedIndex(): Int {

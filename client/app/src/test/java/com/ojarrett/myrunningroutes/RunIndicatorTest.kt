@@ -107,4 +107,13 @@ class RunIndicatorTest {
         runIndicatorCollection.setSelected(otherRunIndicator2)
         assertEquals(runIndicatorCollection.getSelectedIndex(), 2)
     }
+
+    @Test
+    fun runCollectionIsSelected() {
+        attachRunIndicatorsToCollection(null, null)
+
+        assertFalse(runIndicatorCollection.isSelected())
+        runIndicatorCollection.setSelected(runIndicator)
+        assertTrue(runIndicatorCollection.isSelected())
+    }
 }
