@@ -16,10 +16,11 @@ class RunIndicatorTest {
     var otherRunIndicator1 = RunIndicator(fakeImageViewHandler)
     var otherRunIndicator2 = RunIndicator(fakeImageViewHandler)
     var runIndicatorCollection = RunController(
-        listOf(runIndicator, otherRunIndicator1, otherRunIndicator2))
+        listOf(runIndicator, otherRunIndicator1, otherRunIndicator2)
+    )
 
     private fun attachRunIndicatorsToCollection(selected: RunIndicator?, started: RunIndicator?) {
-        for(ri in runIndicatorCollection.getRunIndicators()) {
+        for (ri in runIndicatorCollection.getRunIndicators()) {
             ri.setCollection(runIndicatorCollection)
         }
 
@@ -95,5 +96,15 @@ class RunIndicatorTest {
 
         runIndicatorCollection.pauseSelected()
         assertEquals(RunIndicator.RunState.RESET, runIndicator.getState())
+    }
+
+    @Test
+    fun getIndexOfRunIndicator() {
+        attachRunIndicatorsToCollection(runIndicator, null)
+
+
+        assertEquals(runIndicatorCollection.getSelectedIndex(), 0)
+        runIndicatorCollection.setSelected(otherRunIndicator2)
+        assertEquals(runIndicatorCollection.getSelectedIndex(), 2)
     }
 }

@@ -8,6 +8,10 @@ class RunController(private val runIndicators: List<RunIndicator>) {
         return selected == null
     }
 
+    public fun getSelectedIndex(): Int {
+        return runIndicators.indexOf(selected)
+    }
+
     public fun setSelected(runIndicator: RunIndicator) {
         if(runIndicator != selected) {
             selected?.getState()?.let { selected?.changeState(it) }

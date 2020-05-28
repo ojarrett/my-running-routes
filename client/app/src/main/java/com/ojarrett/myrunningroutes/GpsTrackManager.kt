@@ -16,8 +16,7 @@ class GpsTrackManager {
     }
     private var provider: FusedLocationProviderClient? = null
     private var lastLocation: Location? = null
-    private var gpsThreads: MutableList<Thread> = mutableListOf()
-    private var currentThread: Int = 0
+    private var gpsThreads: MutableMap<Int, Thread> = mutableMapOf()
     private var points: MutableList<Location> = mutableListOf()
     private var elapsed: Int = 0
 
@@ -33,15 +32,16 @@ class GpsTrackManager {
         return lastLocation
     }
 
-    public fun startNewGpsTrack() {
-        val gpsThread = Thread(GpsTrack(this))
-        currentThread = gpsThreads.size
-        gpsThread.start()
-        gpsThreads.add(gpsThread)
+    public fun startNewGpsTrack(index: Int) {
+        if (!gpsThreads.keys.contains(index)) {
+            val gpsThread = Thread(GpsTrack(this))
+            gpsThread.start()
+            gpsThreads.put(index, gpsThread)
+        }
     }
 
-    public fun pauseGpsTrack() {
-        gpsThreads[currentThread].interrupt()
+    public fun pauseGpsTrack(index: Int) {
+        gpsThreads[index]?.interrupt()
     }
 
     public fun addPoint(location: Location) {
