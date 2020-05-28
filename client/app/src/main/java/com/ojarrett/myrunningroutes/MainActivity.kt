@@ -17,7 +17,7 @@ import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private val gpsTracker: GpsTrackManager = GpsTrackManager()
+    private val gpsTracker: GpsTrackManager = GpsTrackManager(4)
 
     enum class MyPermissions(val code: Int) {
         ACCESS_COARSE_LOCATION(100),

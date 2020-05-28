@@ -4,21 +4,26 @@ import android.location.Location
 import android.util.Log
 import com.google.android.gms.location.FusedLocationProviderClient
 
-class GpsTrackManager {
+class GpsTrackManager(val numTracks: Int) {
 
     companion object {
         var instance:GpsTrackManager? = null
     }
 
-    init {
-        // TODO: Fix if this is done more than once
-        instance = this
-    }
     private var provider: FusedLocationProviderClient? = null
     private var lastLocation: Location? = null
     private var gpsThreads: MutableMap<Int, Thread> = mutableMapOf()
-    private var points: MutableList<Location> = mutableListOf()
-    private var elapsed: Int = 0
+    private var points: MutableList<MutableList<Location>> = mutableListOf()
+    private var elapsed: MutableList<Int> = mutableListOf()
+
+    init {
+        // TODO: Fix if this is done more than once
+        instance = this
+        for(indicator in 0..numTracks) {
+            points.add(mutableListOf())
+            elapsed.add(0)
+        }
+    }
 
     public fun setLocationProvider(locationProvider:  FusedLocationProviderClient) {
         this.provider = locationProvider
@@ -34,7 +39,7 @@ class GpsTrackManager {
 
     public fun startNewGpsTrack(index: Int) {
         if (!gpsThreads.keys.contains(index)) {
-            val gpsThread = Thread(GpsTrack(this))
+            val gpsThread = Thread(GpsTrack(this, index))
             gpsThread.start()
             gpsThreads[index] = gpsThread
         }
@@ -43,26 +48,27 @@ class GpsTrackManager {
     public fun pauseGpsTrack(index: Int) {
         if (gpsThreads.keys.contains(index)) {
             gpsThreads[index]?.interrupt()
+            gpsThreads.remove(index)
         }
     }
 
-    public fun addPoint(location: Location) {
-        points.add(location)
+    public fun addPoint(location: Location, trackIndex: Int) {
+        points[trackIndex].add(location)
     }
 
-    public fun getPoints(): List<Location> {
-        return points
+    public fun getPoints(track: Int): List<Location> {
+        return points[track]
     }
 
     public fun resetPoints() {
         points = mutableListOf()
     }
 
-    public fun incrementElapsed(by: Int) {
-        elapsed += by
+    public fun incrementElapsed(by: Int, trackIndex: Int) {
+        elapsed[trackIndex] += by
     }
 
-    fun getElapsed(): Int {
-        return elapsed
+    fun getElapsed(trackIndex: Int): Int {
+        return elapsed[trackIndex]
     }
 }

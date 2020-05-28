@@ -6,6 +6,7 @@ import android.os.Message
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
@@ -86,12 +87,23 @@ class FirstFragment : Fragment() {
                 when(gps) {
                     null -> {}
                     else -> {
-                        val points = gps.getPoints().size
-                        val elapsed = gps.getElapsed()
-                        val statusString = "Elapsed time: %d seconds. Points collected: %d".format(elapsed, points)
                         val text: TextView = view.findViewById(R.id.gps_stats_textview)
-                        text.setText(statusString)
-                        text.visibility = VISIBLE
+                        if (runIndicatorCollection.isSelected()) {
+                            val trackIndex = runIndicatorCollection.getSelectedIndex()
+                            val points =
+                                gps.getPoints(trackIndex).size
+                            val elapsed = gps.getElapsed(trackIndex)
+                            val statusString =
+                                "Elapsed time: %d seconds. Points collected: %d".format(
+                                    elapsed,
+                                    points
+                                )
+                            val text: TextView = view.findViewById(R.id.gps_stats_textview)
+                            text.setText(statusString)
+                            text.visibility = VISIBLE
+                        } else {
+                            text.visibility = INVISIBLE
+                        }
                     }
                 }
             }
