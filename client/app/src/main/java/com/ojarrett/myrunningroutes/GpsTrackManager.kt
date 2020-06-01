@@ -37,6 +37,11 @@ class GpsTrackManager(val numTracks: Int) {
         return lastLocation
     }
 
+    // Unit testing purposes only
+    public fun setLatestLocation(location: Location) {
+        this.lastLocation = location
+    }
+
     public fun startNewGpsTrack(index: Int) {
         if (!gpsThreads.keys.contains(index)) {
             val gpsThread = Thread(GpsTrack(this, index))

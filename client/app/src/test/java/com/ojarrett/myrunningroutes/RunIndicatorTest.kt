@@ -103,9 +103,9 @@ class RunIndicatorTest {
         attachRunIndicatorsToCollection(runIndicator, null)
 
 
-        assertEquals(runIndicatorCollection.getSelectedIndex(), 0)
+        assertEquals(0, runIndicatorCollection.getSelectedIndex())
         runIndicatorCollection.setSelected(otherRunIndicator2)
-        assertEquals(runIndicatorCollection.getSelectedIndex(), 2)
+        assertEquals(2, runIndicatorCollection.getSelectedIndex())
     }
 
     @Test
