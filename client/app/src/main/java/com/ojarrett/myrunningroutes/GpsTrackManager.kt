@@ -6,6 +6,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 
 class GpsTrackManager(val numTracks: Int) {
 
+    val DEFAULT_POLLING_INTERVAL = 3000L
+
     companion object {
         var instance:GpsTrackManager? = null
     }
@@ -15,6 +17,7 @@ class GpsTrackManager(val numTracks: Int) {
     private var gpsThreads: MutableMap<Int, Thread> = mutableMapOf()
     private var points: MutableList<MutableList<Location>> = mutableListOf()
     private var elapsed: MutableList<Int> = mutableListOf()
+    private var pollingFunction: () -> Unit = { Thread.sleep(DEFAULT_POLLING_INTERVAL) }
 
     init {
         // TODO: Fix if this is done more than once
@@ -23,6 +26,10 @@ class GpsTrackManager(val numTracks: Int) {
             points.add(mutableListOf())
             elapsed.add(0)
         }
+    }
+
+    public fun setPollingFunction(func: () -> Unit) {
+        pollingFunction = func
     }
 
     public fun setLocationProvider(locationProvider:  FusedLocationProviderClient) {
@@ -44,7 +51,7 @@ class GpsTrackManager(val numTracks: Int) {
 
     public fun startNewGpsTrack(index: Int) {
         if (!gpsThreads.keys.contains(index)) {
-            val gpsThread = Thread(GpsTrack(this, index))
+            val gpsThread = Thread(GpsTrack(this, index, pollingFunction))
             gpsThread.start()
             gpsThreads[index] = gpsThread
         }

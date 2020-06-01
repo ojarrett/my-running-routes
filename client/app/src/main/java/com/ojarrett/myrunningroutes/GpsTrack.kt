@@ -3,7 +3,7 @@ package com.ojarrett.myrunningroutes
 import android.location.Location
 import android.util.Log
 
-class GpsTrack(val manager: GpsTrackManager, val trackIndex: Int): Runnable {
+class GpsTrack(val manager: GpsTrackManager, val trackIndex: Int, val pollingFunction: ()->Unit): Runnable {
     override fun run() {
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND)
         try {
@@ -19,7 +19,7 @@ class GpsTrack(val manager: GpsTrackManager, val trackIndex: Int): Runnable {
                 } else {
                     Log.i("MainActivity", "Location was null!")
                 }
-                Thread.sleep(3000)
+                pollingFunction()
             }
         } catch (e: InterruptedException) {
             return

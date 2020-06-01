@@ -9,11 +9,18 @@ class GpsTrackTest {
     @Test
     public fun gpsTrackManagerInit() {
         val gpsTrackManager = GpsTrackManager(4)
+        var pollingCount = 0
+        gpsTrackManager.setPollingFunction {
+            if (pollingCount == 3) {
+                Thread.sleep(300000)
+            } else {
+                pollingCount++
+            }
+        }
         gpsTrackManager.setLatestLocation(Location("test"))
         gpsTrackManager.startNewGpsTrack(0)
 
-        // TODO: Mock sleeps
-        Thread.sleep(6000)
-        assertEquals(2, gpsTrackManager.getPoints(0).size)
+        while(pollingCount < 3) {Thread.sleep(10)}
+        assertEquals(4, gpsTrackManager.getPoints(0).size)
     }
 }
